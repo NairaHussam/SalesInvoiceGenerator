@@ -110,7 +110,7 @@ lineModTable.fireTableDataChanged();
           String customer=headParts[2];
           Invoices invoice= new Invoices(invoiceNum,invoiceDate,customer);
           invoicesArray.add(invoice);
-      }System.out.println("yarab");
+      }
       res=FileChooser.showOpenDialog(frame);
       if(res==JFileChooser.APPROVE_OPTION){
       File lineFile =FileChooser.getSelectedFile();
@@ -131,7 +131,7 @@ lineModTable.fireTableDataChanged();
       }
       Line line=new Line(invoiceNum,name,price,count,inv);
         inv.getLines().add(line);
-    }System.out.println("akhern");
+    }
       }
       frame.setInvoicess(invoicesArray);
       InvModelTable invoicesTableModel=new InvModelTable(invoicesArray);
