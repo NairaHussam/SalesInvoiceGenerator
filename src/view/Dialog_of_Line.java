@@ -16,20 +16,20 @@ public class Dialog_of_Line extends JDialog{
     private JTextField itemField;
     private JTextField countField;
     private JTextField priceField;
-    private JLabel itemlbl;
-    private JLabel countlbl;
-    private JLabel pricelbl;
+    private JLabel itemCountlbl;
+    private JLabel itemNamelbl;
+    private JLabel itemPricelbl;
     private JButton okbtn;
     private JButton cancelbtn;
     
     public Dialog_of_Line(NewJFrame frame){
  
     itemField=new JTextField(20);
-itemlbl=new JLabel("Item Name");
+itemNamelbl=new JLabel("Item Name");
   countField=new JTextField(20);
-countlbl=new JLabel("Item Count");
+itemCountlbl=new JLabel("Item Count");
   priceField=new JTextField(20);
-pricelbl=new JLabel("Item price");
+itemPricelbl=new JLabel("Item price");
 okbtn=new JButton("Ok");
 cancelbtn=new JButton("Cancel");
 okbtn.setActionCommand("CreateLineOk");
@@ -37,12 +37,12 @@ cancelbtn.setActionCommand("CreateLineCancel");
 okbtn.addActionListener(frame.getController());
 cancelbtn.addActionListener(frame.getController());
 setLayout(new GridLayout(4,2));
-add(itemlbl);
+add(itemNamelbl);
 add(itemField);
-add(countlbl);
+add(itemCountlbl);
 add(countField);
-add(itemlbl);
-add(pricelbl);
+
+add(itemPricelbl);
 add(priceField);
 add(okbtn);
 add(cancelbtn);

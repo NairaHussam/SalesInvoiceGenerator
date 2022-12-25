@@ -16,11 +16,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
+import java.lang.String;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.InvModelTable;
 import model.Invoices;
-import model.Line;
+import model.Linee;
 import model.LineModelTable;
 import view.Dialog_of_Line;
 import view.Invoice_of_Dialog;
@@ -100,8 +101,8 @@ lineModTable.fireTableDataChanged();
       if(res==JFileChooser.APPROVE_OPTION){
       File headFile=FileChooser.getSelectedFile();
       Path headPath=Paths.get(headFile.getAbsolutePath());
-    List<String> headLines =Files.readAllLines(headPath);
-      System.out.println("hhah");
+      List<String> headLines =Files.readAllLines(headPath);
+      
       ArrayList <Invoices> invoicesArray=new ArrayList<>(); 
       for(String headLine :headLines){
           String [] headParts=headLine.split(",");
@@ -126,10 +127,10 @@ lineModTable.fireTableDataChanged();
       for(Invoices invoice:invoicesArray){
           if(invoice.getNumber()==invoiceNum){
               inv=invoice;
-          
+          break;
           }
       }
-      Line line=new Line(invoiceNum,name,price,count,inv);
+      Linee line=new Linee(invoiceNum,name,price,count,inv);
         inv.getLines().add(line);
     }
       }
@@ -149,44 +150,47 @@ lineModTable.fireTableDataChanged();
     
 
     private void SaveFile() {
-        ArrayList<Invoices> invoicess =frame.getInvoicess();  
-        String a="";
-        String b="";
-        for(Invoices invoice: invoicess){
-            String invoiceCsv=invoice.getCSV();
-            a+= invoiceCsv;
-            a+="\n";
-            for(Line line :invoice.getLines()){
-            String LCsv= line.getCSV();
-            a +=LCsv;
-            a+="\n";
-            
+         ArrayList<Invoices> invoices = frame.getInvoicess();
+        String headers = "";
+        String lines = "";
+        for (Invoices invoice : invoices) {
+            String invCSV = invoice.getCSV();
+            headers += invCSV;
+            headers += "\n";
+
+            for (Linee line : invoice.getLines()) {
+                String lineCSV = line.getCSV();
+                lines += lineCSV;
+                lines += "\n";
             }
         }
-        System.out.println("final ya rab");
-        try{
-        JFileChooser fileChoose=new JFileChooser();
-      int res=fileChoose.showSaveDialog(frame);
-      if(res==JFileChooser.APPROVE_OPTION){
-          File headfile=fileChoose.getSelectedFile();
-          FileWriter hw=new FileWriter(headfile);
-          hw.write(a);
-          hw.flush();
-          hw.close();
-      if(res==JFileChooser.APPROVE_OPTION){
-          File linefile=fileChoose.getSelectedFile();
-           FileWriter lw=new FileWriter(linefile);
-          lw.write(b);
-          lw.flush();
-          lw.close();
-      }
-    }
-        }catch(Exception ex){
+        try {
+            JFileChooser fc = new JFileChooser();
+            int result = fc.showSaveDialog(frame);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File headerFile = fc.getSelectedFile();
+                FileWriter hfw = new FileWriter(headerFile);
+                hfw.write(headers);
+                hfw.flush();
+                hfw.close();
+                result = fc.showSaveDialog(frame);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File lineFile = fc.getSelectedFile();
+                    FileWriter lfw = new FileWriter(lineFile);
+                    lfw.write(lines);
+                    lfw.flush();
+                    lfw.close();
+                }
+            }
+        } catch (Exception ex) {
+
         }
     }
     
+     
+
     private void CreateNewInvoice() {
-       Invoice_of_Dialog invdialog= new Invoice_of_Dialog(frame);
+        invdialog= new Invoice_of_Dialog(frame);
         invdialog.setVisible(true);
         
     }
@@ -222,43 +226,45 @@ private void DeleteInvoice() {
          invdialog.setVisible(false);
           invdialog.dispose();
            invdialog=null;
-    }
+    } 
 
     private void CreateInvoiceOk() {
-        String date=invdialog.getDateField().getText();
-        String cust=invdialog.getNameField().getText();
-        int num=frame.getNextInvNum();
-        Invoices invoice=new Invoices(num,date,cust);
-        frame.getInvoicess().add(invoice);
-       frame.getInvTableModel().fireTableDataChanged();
-       invdialog.setVisible(false);
-       invdialog.dispose();
-       invdialog=null;
+    String date = invdialog.getDateField().getText();
+        String  customer = invdialog.getNameField().getText();
+        int num = frame.getNextInvNum(); 
+        Invoices invoice = new Invoices(num, date, customer);
+              
+                    frame.getInvoicess().add(invoice);
+                    frame.getInvTableModel().fireTableDataChanged();
+                    invdialog.setVisible(false);
+                    invdialog.dispose();
+                    invdialog = null;
        
     }
 
+
     private void CreateLineOk() {
-        String item=linedialog.getItemField().getText();
-        String count=linedialog.getCountField().getText();
-        String price=linedialog.getPriceField().getText();
-        int countt=Integer.parseInt(count);
-        double pricee=Double.parseDouble(price);
-        int selectinvoice=frame.getI_Table().getSelectedRow();
-        if(selectinvoice!=-1){
-        Invoices invoice=frame.getInvoicess().get(selectinvoice);
-       Line line=new Line(item,pricee,countt, invoice) ;
-        invoice.getLines().add(line);
-        LineModelTable lineModTable=(LineModelTable) frame.getL_Table().getModel();
-        
-        lineModTable.fireTableDataChanged();
-        frame.getInvTableModel().fireTableDataChanged();
+        String item = linedialog.getItemField().getText();
+        String countStr = linedialog.getCountField().getText();
+        String priceStr = linedialog.getPriceField().getText();
+        int count = Integer.parseInt(countStr);
+        double price = Double.parseDouble(priceStr);
+        int selectedInvoice = frame.getI_Table().getSelectedRow();
+        if (selectedInvoice != -1) {
+            Invoices invoice = frame.getInvoicess().get(selectedInvoice);
+            Linee line = new Linee(item, price, count, invoice);
+            invoice.getLines().add(line);
+            LineModelTable linesTableModel = (LineModelTable) frame.getL_Table().getModel();
+            linesTableModel.fireTableDataChanged();
+            frame.getInvTableModel().fireTableDataChanged();
         }
-        
         linedialog.setVisible(false);
         linedialog.dispose();
-       linedialog=null;
-    }
-
+        linedialog = null;
+    } 
+   
+    
+    
     private void CreateLineCancel() {
         linedialog.setVisible(false);
         linedialog.dispose();

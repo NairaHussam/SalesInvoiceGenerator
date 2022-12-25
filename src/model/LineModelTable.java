@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 public class LineModelTable extends AbstractTableModel{
-private ArrayList<Line> lines;
+private ArrayList<Linee> lines;
 private String [] cols={"Number","Item No.","Item Price","Count","Total"};
 
-    public LineModelTable(ArrayList<Line> lines) {
+    public LineModelTable(ArrayList<Linee> lines) {
         this.lines = lines;
     }
 
@@ -33,7 +33,7 @@ return cols[column];
         }
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Line line= lines.get(rowIndex);
+        Linee line= lines.get(rowIndex);
         switch(columnIndex){
         case 0:
             return line.getNumber();

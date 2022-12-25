@@ -11,7 +11,7 @@ public class Invoices {
     private int number;
     private String date;
     private String customer;
- private ArrayList<Line> Lines;
+ private ArrayList<Linee> Lines;
  
     public String getCSV;
  
@@ -25,7 +25,7 @@ public class Invoices {
     }
       public double getInvoiceTot(){
      double tot=0.0;
-      for(Line Line:getLines()){
+      for(Linee Line:getLines()){
       tot+=Line.getLineTot();
 }
         return tot;
@@ -54,14 +54,14 @@ public class Invoices {
         this.date = date;
     }
 
-    public ArrayList<Line> getLines() {
+    public ArrayList<Linee> getLines() {
         if(Lines==null){
         Lines=new ArrayList<>();
         }
         return Lines;
     }
 
-    public void setLines(ArrayList<Line> Lines) {
+    public void setLines(ArrayList<Linee> Lines) {
         this.Lines = Lines;
     }
  

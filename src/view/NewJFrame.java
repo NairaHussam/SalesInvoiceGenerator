@@ -102,7 +102,7 @@ public class NewJFrame extends javax.swing.JFrame {
         LoadFileItem.setText("Load File");
         jMenu1.add(LoadFileItem);
 
-        SaveFileItem.setText("save File");
+        SaveFileItem.setText("Save File");
         jMenu1.add(SaveFileItem);
 
         jMenuBar1.add(jMenu1);
@@ -128,10 +128,11 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(29, 29, 29)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel4)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(InvoicTotal_lbl)
                                     .addComponent(CustomerName_lbl)
@@ -260,6 +261,7 @@ private InvModelTable InvTableModel;
     public void setInvTableModel(InvModelTable InvTableModel) {
         this.InvTableModel = InvTableModel;
     }
+
 
     public JTable getI_Table() {
         return I_Table;

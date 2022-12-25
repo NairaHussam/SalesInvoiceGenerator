@@ -6,25 +6,25 @@
 package model;
 
 
-public class Line {
+public class Linee {
     private int number;
     private String item;
     private double price;
     private int count;
     private Invoices invoice;
 
-    public Line() {
+    public Linee() {
     }
 
- public Line(String item, double price, int count, Invoices invoice) {
-      
+ public Linee(String item, double price, int count, Invoices invoice) {
+   
         this.item = item;
         this.price = price;
         this.count = count;
         this.invoice = invoice;
     }
 
-    public Line(int number, String item, double price, int count, Invoices invoice) {
+    public Linee(int number, String item, double price, int count, Invoices invoice) {
         this.number = number;
         this.item = item;
         this.price = price;
